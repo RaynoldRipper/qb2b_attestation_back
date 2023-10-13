@@ -1,0 +1,1 @@
+.text{font-size:18px}.letter{color:var(--black)}.letter--current{padding:2px 3px;background-color:var(--primary);color:var(--white)}.letter--error{padding:2px 3px;background-color:var(--q-negative);color:var(--white)}.letter--passed{color:var(--primary)}

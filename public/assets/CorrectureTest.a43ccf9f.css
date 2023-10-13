@@ -1,0 +1,1 @@
+.symbol{display:block;font-size:22px;line-height:22px;padding:4px;cursor:pointer;-webkit-user-select:none;user-select:none}.symbol:hover{background-color:var(--success)}.symbol.active{background-color:var(--success);filter:brightness(.9)}.content{padding-top:15px;padding-bottom:15px}.input-main{padding:5px 10px}.buttons-wrapper{margin-top:15px;margin-bottom:15px}
