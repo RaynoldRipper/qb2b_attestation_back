@@ -11,6 +11,7 @@ use App\Http\Controllers\MergedTestController;
 use App\Http\Controllers\AttestationController;
 use App\Http\Controllers\RegulationsController;
 use App\Http\Controllers\RegulationVideoController;
+use App\Http\Middleware\FiredUserAbort;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,7 @@ Route::get('/positions/{crm_id}', [PositionsController::class, 'show']);
 
 // Protected routes
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', FiredUserAbort::class]], function () {
 
     // Users api
     // Route::put('/updateUserInfo', [UserController::class, 'updateUserInfo']);
