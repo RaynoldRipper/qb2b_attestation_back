@@ -15,6 +15,8 @@ class CreateAccessListsTable extends Migration
     {
         Schema::create('access_lists', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->nullable();
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -106,4 +107,7 @@ Route::group(['middleware' => ['auth:sanctum', FiredUserAbort::class]], function
     // RegulationVideo
     // Route::post('/regulation-video-update', [RegulationVideoController::class, 'update']);
     // Route::delete('/regulation-video/{video_id}', [RegulationVideoController::class, 'delete']);
+
+    // AccessList
+    Route::resource('access-list', AccessListController::class);
 });

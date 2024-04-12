@@ -13,7 +13,11 @@ class AccessListController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+        if (empty($user)) return false;
+
+        $accessList = \App\Models\AccessList::all();
+        return $accessList;
     }
 
     /**
@@ -24,7 +28,13 @@ class AccessListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'type' => 'string',
+            'value' => 'string'
+        ]);
+
+        $accessListItem = \App\Models\AccessList::create($data);
+        return $accessListItem;
     }
 
     /**
@@ -35,7 +45,8 @@ class AccessListController extends Controller
      */
     public function show($id)
     {
-        //
+        $accessListItem = \App\Models\AccessList::find($id);
+        return $accessListItem;
     }
 
     /**
@@ -47,7 +58,13 @@ class AccessListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'type' => 'string',
+            'value' => 'string'
+        ]);
+        $accessListItem = \App\Models\AccessList::find($id);
+        $accessListItem->update($data);
+        return $accessListItem;
     }
 
     /**
@@ -58,6 +75,7 @@ class AccessListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $accessListItem = \App\Models\AccessList::find($id);
+        return $accessListItem->delete();
     }
 }
