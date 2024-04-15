@@ -30,7 +30,7 @@ class AccessListController extends Controller
     {
         $data = $request->validate([
             'type' => 'string',
-            'value' => 'string'
+            'value' => 'string|unique:App\Models\AccessList,value'
         ]);
 
         $accessListItem = \App\Models\AccessList::create($data);
