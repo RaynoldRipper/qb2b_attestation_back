@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\Position;
+use App\Services\AccessListService;
 use Illuminate\Http\Request;
 use App\Helpers\NumberHelper;
 use App\Services\UserService;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request, UserService $userService)
+    public function register(Request $request, UserService $userService, AccessListService $accessListService)
     {
         $fields = $request->validate([
             'name' => 'required|string',
@@ -25,6 +26,13 @@ class AuthController extends Controller
         ]);
 
         $fields['phone'] = preg_replace('![^0-9]+!', '', $fields['phone']);
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $findAccessItem = $accessListService->findByPhoneOrIp($fields['phone'], $ip);
+        if (empty($findAccessItem)) {
+            return response([
+                'message' => 'Указанного вами номера нет в списке доступа.'
+            ], 401);
+        }
 
         $user = User::create([
             'name' => $fields['name'],
@@ -59,7 +67,7 @@ class AuthController extends Controller
     {
         $fields = $request->validate([
             'phone' => 'required|string',
-            'password'  => 'required|string',
+            'password' => 'required|string',
         ]);
 
         $fields['phone'] = preg_replace('![^0-9]+!', '', $fields['phone']);
