@@ -30,7 +30,7 @@ class AuthController extends Controller
         $findAccessItem = $accessListService->findByPhoneOrIp($fields['phone'], $ip);
         if (empty($findAccessItem)) {
             return response([
-                'message' => 'Указанного вами номера нет в списке доступа.'
+                'message' => 'Нет доступа к регистрации.'
             ], 400);
         }
 
