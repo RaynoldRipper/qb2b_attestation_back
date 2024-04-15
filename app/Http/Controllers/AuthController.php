@@ -31,7 +31,7 @@ class AuthController extends Controller
         if (empty($findAccessItem)) {
             return response([
                 'message' => 'Указанного вами номера нет в списке доступа.'
-            ], 401);
+            ], 400);
         }
 
         $user = User::create([
