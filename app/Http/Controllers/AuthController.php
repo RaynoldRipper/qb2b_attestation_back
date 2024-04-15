@@ -39,6 +39,7 @@ class AuthController extends Controller
             'phone' => $fields['phone'],
             'password' => bcrypt($fields['password']),
             'status' => 'CANDIDATE',
+            'role' => 'USER'
         ]);
         $position = Position::where('crm_id', $request->position['value'])->first();
         $meta = array('password' => NumberHelper::phoneDBFormat($fields['password']), 'position_crm_id' => $fields['position']['value'], 'current_attestation' => 'default');

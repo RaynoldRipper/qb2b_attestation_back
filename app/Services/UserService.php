@@ -26,7 +26,6 @@ class UserService
         $user->family = $user_info->family;
         $user->middle_name = $user_info->middle_name;
         $user->email_prefix = $user_info->email_prefix;
-        $user->role = $user->role;
         $user->meta = json_decode($user_info->meta);
         $user->subordinate_positions = $position->positions_crm_id;
 
