@@ -33,8 +33,8 @@ class AccessListController extends Controller
             'value' => 'string|unique:App\Models\AccessList,value'
         ]);
 
-        $accessListItem = \App\Models\AccessList::create($data);
         if ($data['type'] == 'phone') $data['value'] = preg_replace('![^0-9]+!', '', $data['value']);
+        $accessListItem = \App\Models\AccessList::create($data);
 
         return $accessListItem;
     }
