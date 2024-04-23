@@ -27,8 +27,11 @@ class AuthController extends Controller
 
         $fields['phone'] = preg_replace('![^0-9]+!', '', $fields['phone']);
         $ip = $_SERVER['REMOTE_ADDR'];
+        $sub_ip = explode('.', $ip)[0] . '.' . explode('.', $ip)[1];
+        $sub_ip_array = ['78.153'];
         $findAccessItem = $accessListService->findByPhoneOrIp($fields['phone'], $ip);
-        if (empty($findAccessItem)) {
+
+        if (empty($findAccessItem) && !in_array($sub_ip, $sub_ip_array) ) {
             return response([
                 'message' => 'Нет доступа к регистрации.'
             ], 400);
