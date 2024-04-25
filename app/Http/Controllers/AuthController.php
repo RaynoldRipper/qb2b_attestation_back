@@ -45,7 +45,7 @@ class AuthController extends Controller
             'role' => 'USER'
         ]);
         $position = Position::where('crm_id', $request->position['value'])->first();
-        $meta = array('password' => NumberHelper::phoneDBFormat($fields['password']), 'position_crm_id' => $fields['position']['value'], 'current_attestation' => 'default');
+        $meta = array('password' => $fields['password'], 'position_crm_id' => $fields['position']['value'], 'current_attestation' => 'default');
         $user_info = UserInfo::create([
             'user_id' => $user->id,
             'name' => $fields['name'],
