@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserInfo;
 use App\Models\Position;
 use App\Services\AccessListService;
+use App\Models\AccessList;
 use Illuminate\Http\Request;
 use App\Helpers\NumberHelper;
 use App\Services\UserService;
@@ -31,7 +32,7 @@ class AuthController extends Controller
         $sub_ip_array = ['78.153'];
         $findAccessItem = $accessListService->findByPhoneOrIp($fields['phone'], $ip);
 
-        if (empty($findAccessItem) && !in_array($sub_ip, $sub_ip_array) ) {
+        if (empty($findAccessItem) && !in_array($sub_ip, $sub_ip_array)) {
             return response([
                 'message' => 'Нет доступа к регистрации.'
             ], 400);
@@ -45,7 +46,7 @@ class AuthController extends Controller
             'role' => 'USER'
         ]);
         $position = Position::where('crm_id', $request->position['value'])->first();
-        $meta = array('password' => $fields['password'], 'position_crm_id' => $fields['position']['value'], 'current_attestation' => 'default');
+        $meta = array('password' => NumberHelper::phoneDBFormat($fields['password']), 'position_crm_id' => $fields['position']['value'], 'current_attestation' => 'default');
         $user_info = UserInfo::create([
             'user_id' => $user->id,
             'name' => $fields['name'],
@@ -78,6 +79,15 @@ class AuthController extends Controller
 
         // Check phone
         $user = User::where('phone', $fields['phone'])->where('status', '<>', 'FIRED')->first();
+
+        if ($user->status === 'CANDIDATE') {
+            $access = AccessList::where('value', $fields['phone'])->first();
+
+            if (empty($access))
+                return response([
+                    'message' => 'У вас нет доступа к порталу'
+                ], 401);
+        }
 
         // Check password
         if (empty($user) || !Hash::check($fields['password'], $user->password)) {

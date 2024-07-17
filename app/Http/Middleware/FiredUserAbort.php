@@ -21,6 +21,13 @@ class FiredUserAbort
         if ($user->status === 'FIRED')
             abort(403, 'Access denied.');
 
+        if ($user->status === 'CANDIDATE') {
+            $access = \App\Models\AccessList::where('value', $user->phone)->first();
+
+            if (empty($access))
+                abort(401, 'Access denied.');
+        }
+
         return $next($request);
     }
 }
