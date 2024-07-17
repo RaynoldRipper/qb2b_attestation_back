@@ -110,6 +110,7 @@ class UserController extends Controller
                 'category' => $meta['position_category'] ?? null,
                 'mentor' => $meta['mentor'] ?? null,
                 'fired_date' => isset($meta['fired_date']) && $new_user->status === 'FIRED' ? $meta['fired_date'] : null,
+                'position_date' => isset($meta['position_date']) ? $meta['position_date'] : null,
                 'crm_status' => $new_user_info->crm_status,
                 'status' => $new_user->status,
             ];
