@@ -209,13 +209,13 @@ class UserController extends Controller
         $user_info = $user->info;
         $user_meta = JsonHelper::decode($user_info->meta);
 
-        if (isset($user_meta['resume']) && Storage::delete($user_meta['resume'])) unset($user_meta['resume']);
-        if (isset($user_meta['passport']) && Storage::delete($user_meta['passport'])) unset($user_meta['passport']);
-        if (isset($user_meta['reserve_prioricy'])) unset($user_meta['reserve_prioricy']);
-        if (isset($user_meta['reserve_position_crm_id'])) unset($user_meta['reserve_position_crm_id']);
+        // if (isset($user_meta['resume']) && Storage::delete($user_meta['resume'])) unset($user_meta['resume']);
+        // if (isset($user_meta['passport']) && Storage::delete($user_meta['passport'])) unset($user_meta['passport']);
+        // if (isset($user_meta['reserve_prioricy'])) unset($user_meta['reserve_prioricy']);
+        // if (isset($user_meta['reserve_position_crm_id'])) unset($user_meta['reserve_position_crm_id']);
 
         if (isset($data['fired_date'])) $user_meta['fired_date'] = $data['fired_date'];
-        if (!isset($user_meta['position_category'])) $user_meta['position_category'] = 2;
+        // if (!isset($user_meta['position_category'])) $user_meta['position_category'] = 2;
 
         $user->save();
         $user_info->update(['meta' => $user_meta, 'crm_status' => 1]);
