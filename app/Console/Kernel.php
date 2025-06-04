@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\UserToArchive;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,6 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+         // Запускаем job каждый день в 2:00 ночи
+        $schedule->job(new UserToArchive())
+            ->dailyAt('02:00')
+            ->name('archive-candidate-users')
+            ->withoutOverlapping()
+            ->onOneServer();
         // $schedule->command('inspire')->hourly();
     }
 

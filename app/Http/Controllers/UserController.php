@@ -33,6 +33,9 @@ class UserController extends Controller
         else if ($data['users_list_type'] && $data['users_list_type'] === 'fired')
             // Уволенные пользователи
             $users = User::where('role', '<>', 'CRM')->where('status', 'FIRED')->get();
+        else if ($data['users_list_type'] === 'archived')
+            // Заархивированные пользователи
+            $users = User::where('role', '<>', 'CRM')->where('status', 'ARCHIVED')->get();
         else if ($data['users_list_type'] === 'users')
             // Все пользователи
             $users = User::where('role', '<>', 'CRM')->where('status', 'CANDIDATE')->get();
@@ -51,8 +54,10 @@ class UserController extends Controller
 
             // Data post handling
             if (isset($users[$key]->meta['reserve_position_crm_id'])) {
-                if ($users[$key]->status == 'CANDIDATE') $users[$key]->status = 'RESERVE';
-                else if ($users[$key]->status == 'EMPLOYEE') $users[$key]->status = 'INTERNAL_RESERVE';
+                if ($users[$key]->status == 'CANDIDATE')
+                    $users[$key]->status = 'RESERVE';
+                else if ($users[$key]->status == 'EMPLOYEE')
+                    $users[$key]->status = 'INTERNAL_RESERVE';
             }
 
             if ($data['users_list_type'] === 'employees-personnel-reserve' || $data['users_list_type'] === 'personnel-reserve') {
@@ -90,8 +95,10 @@ class UserController extends Controller
 
             $meta = JsonHelper::decode($new_user_info->meta);
             if (isset($meta['reserve_position_crm_id'])) {
-                if ($new_user->status = 'CANDIDATE') $new_user->status = 'RESERVE';
-                else if ($new_user->status = 'CANDIDATE') $new_user->status = 'INTERNAL_RESERVE';
+                if ($new_user->status = 'CANDIDATE')
+                    $new_user->status = 'RESERVE';
+                else if ($new_user->status = 'CANDIDATE')
+                    $new_user->status = 'INTERNAL_RESERVE';
             }
 
             $new_user_info->position = $new_user_info->position();
@@ -159,17 +166,25 @@ class UserController extends Controller
         }
         $user_info_update_data['crm_status'] = 1;
 
-        if (isset($data['status'])) $user_update_data['status'] = $data['status'];
-        if (isset($data['email'])) $user_update_data['email'] = $data['email'];
+        if (isset($data['status']))
+            $user_update_data['status'] = $data['status'];
+        if (isset($data['email']))
+            $user_update_data['email'] = $data['email'];
 
-        if (isset($data['family']))  $user_info_update_data['family'] = $data['family'];
-        if (isset($data['middle_name']))  $user_info_update_data['middle_name'] = $data['middle_name'];
-        if (isset($data['email_prefix']))  $user_info_update_data['email_prefix'] = $data['email_prefix'];
-        if (isset($data['crm_status']))  $user_info_update_data['crm_status'] = $data['crm_status'];
+        if (isset($data['family']))
+            $user_info_update_data['family'] = $data['family'];
+        if (isset($data['middle_name']))
+            $user_info_update_data['middle_name'] = $data['middle_name'];
+        if (isset($data['email_prefix']))
+            $user_info_update_data['email_prefix'] = $data['email_prefix'];
+        if (isset($data['crm_status']))
+            $user_info_update_data['crm_status'] = $data['crm_status'];
 
-        if (isset($user_update_data)) $user->update($user_update_data);
+        if (isset($user_update_data))
+            $user->update($user_update_data);
 
-        if (isset($user_info_update_data)) $user->info->update($user_info_update_data);
+        if (isset($user_info_update_data))
+            $user->info->update($user_info_update_data);
         return response()->json(['message' => 'Данные пользователя успешно обновлены!']);
     }
 
@@ -186,12 +201,17 @@ class UserController extends Controller
         $user_meta = JsonHelper::decode($user_info->meta);
         $user_meta['position_crm_id'] = $data['position_crm_id'];
 
-        if (isset($data['position_date'])) $user_meta['position_date'] = $data['position_date'] ?? date('Y/m/d', strtotime('+3 hours'));
-        if (isset($user_meta['reserve_prioricy'])) unset($user_meta['reserve_prioricy']);
-        if (isset($user_meta['reserve_position_crm_id'])) unset($user_meta['reserve_position_crm_id']);
-        if (isset($user_meta['fired_date'])) unset($user_meta['fired_date']);
+        if (isset($data['position_date']))
+            $user_meta['position_date'] = $data['position_date'] ?? date('Y/m/d', strtotime('+3 hours'));
+        if (isset($user_meta['reserve_prioricy']))
+            unset($user_meta['reserve_prioricy']);
+        if (isset($user_meta['reserve_position_crm_id']))
+            unset($user_meta['reserve_position_crm_id']);
+        if (isset($user_meta['fired_date']))
+            unset($user_meta['fired_date']);
 
-        if (empty($user_meta['position_category'])) $user_meta['position_category'] = 2;
+        if (empty($user_meta['position_category']))
+            $user_meta['position_category'] = 2;
 
         $user->save();
         $user_info->update(['meta' => $user_meta, 'crm_status' => 1]);
@@ -215,7 +235,8 @@ class UserController extends Controller
         // if (isset($user_meta['reserve_prioricy'])) unset($user_meta['reserve_prioricy']);
         // if (isset($user_meta['reserve_position_crm_id'])) unset($user_meta['reserve_position_crm_id']);
 
-        if (isset($data['fired_date'])) $user_meta['fired_date'] = $data['fired_date'];
+        if (isset($data['fired_date']))
+            $user_meta['fired_date'] = $data['fired_date'];
         // if (!isset($user_meta['position_category'])) $user_meta['position_category'] = 2;
 
         $user->save();
@@ -233,13 +254,14 @@ class UserController extends Controller
 
         if ($request != null) {
             foreach ($request->all() as $key => $value) {
-                if ($key === 'user_id') continue;
+                if ($key === 'user_id')
+                    continue;
                 $user_meta->$key = $value;
             }
         }
 
         // Кастыльное решение проблемы смены категории не для сотрудников
-        if ($user->status !== 'EMPLOYEE' && isset($user_meta->{'position_category'})){
+        if ($user->status !== 'EMPLOYEE' && isset($user_meta->{'position_category'})) {
             unset($user_meta->{'position_category'});
         }
 
@@ -262,7 +284,8 @@ class UserController extends Controller
 
         $user_meta = JsonHelper::decode($user->info->meta);
 
-        if (isset($data['reserve_prioricy'])) $update_meta['reserve_prioricy'] = $data['reserve_prioricy'];
+        if (isset($data['reserve_prioricy']))
+            $update_meta['reserve_prioricy'] = $data['reserve_prioricy'];
         $update_meta['reserve_position_crm_id'] = $data['reserve_position_crm_id'];
 
         $userService->updateMeta($user, $update_meta);
