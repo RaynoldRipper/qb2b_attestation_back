@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\UserToArchive;
+use App\Jobs\AccessListCleaner;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -32,6 +33,7 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->onOneServer();
         // $schedule->command('inspire')->hourly();
+        $schedule->job(new AccessListCleaner())->hourly();
     }
 
     /**
