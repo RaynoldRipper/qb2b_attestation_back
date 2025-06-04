@@ -26,14 +26,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         // Запускаем job каждый день в 2:00 ночи
+         // Запускаем job каждый день
         $schedule->job(new UserToArchive())
-            ->dailyAt('02:00')
+            ->daily()
             ->name('archive-candidate-users')
             ->withoutOverlapping()
             ->onOneServer();
-        // $schedule->command('inspire')->hourly();
-        $schedule->job(new AccessListCleaner())->hourly();
+        $schedule->job(new AccessListCleaner())->daily();
     }
 
     /**
