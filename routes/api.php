@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\AccessListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VoController;
+use App\Http\Middleware\FiredUserAbort;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTestController;
 use App\Http\Controllers\PositionsController;
+use App\Http\Controllers\AccessListController;
 use App\Http\Controllers\MergedTestController;
 use App\Http\Controllers\AttestationController;
 use App\Http\Controllers\RegulationsController;
 use App\Http\Controllers\RegulationVideoController;
-use App\Http\Middleware\FiredUserAbort;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,4 +111,9 @@ Route::group(['middleware' => ['auth:sanctum', FiredUserAbort::class]], function
 
     // AccessList
     Route::resource('access-list', AccessListController::class);
+
+    // VoRoutes
+    Route::prefix('vo')->group(function () {
+        Route::get('/find-user-by-phone/{phone}', [VoController::class, 'findUserByPhone']);
+    });
 });
