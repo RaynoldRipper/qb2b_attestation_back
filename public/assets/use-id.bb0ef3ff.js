@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/assets/use-id.7c026c5f.js
-import{u as i}from"./uid.42677368.js";import{k as s,r,o as d,w as e,a as l}from"./index.1a0183c6.js";function a(u){return u==null?null:u}function t(u,n){return u==null?n===!0?`f_${i()}`:null:u}function p({getValue:u,required:n=!0}={}){if(s.value===!0){const o=u!==void 0?r(a(u())):r(null);return n===!0&&o.value===null&&d(()=>{o.value=`f_${i()}`}),u!==void 0&&e(u,f=>{o.value=t(f,n)}),o}return u!==void 0?l(()=>t(u(),n)):r(`f_${i()}`)}export{p as u};
-========
-import{u as i}from"./uid.42677368.js";import{k as s,r,o as d,w as e,a as l}from"./index.6bd820e1.js";function a(u){return u==null?null:u}function t(u,n){return u==null?n===!0?`f_${i()}`:null:u}function p({getValue:u,required:n=!0}={}){if(s.value===!0){const o=u!==void 0?r(a(u())):r(null);return n===!0&&o.value===null&&d(()=>{o.value=`f_${i()}`}),u!==void 0&&e(u,f=>{o.value=t(f,n)}),o}return u!==void 0?l(()=>t(u(),n)):r(`f_${i()}`)}export{p as u};
->>>>>>>> 0b08ed5bb90935afe411043a0c55b54601076d8c:public/assets/use-id.bb0ef3ff.js
